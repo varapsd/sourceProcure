@@ -71,17 +71,7 @@ var Admin = require('./Models/Admin').Admin;
       */
 
 app.get('/',async(req,res)=>{
-    res.send("helo world");
-    Branch.find({Pincodes : { $all : [700001]}},(err,validBranches)=>{
-        var branchesList = [];
-        validBranches.forEach(branch => {
-            branchesList.push(branch.bId);
-        });
-        console.log(branchesList);
-        BranchLogin.find({bId : { $in : branchesList}},(err,validBranchLogin)=>{
-            console.log(validBranchLogin);
-        })
-    })
+    res.redirect('http://localhost:3000/');
 })
 
 app.get('/search/:pin',(req,res)=>{
