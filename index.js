@@ -71,6 +71,7 @@ var Admin = require('./Models/Admin').Admin;
       */
 
 app.get('/',async(req,res)=>{
+    console.log(path.join(__dirname+'/client/public/index.html'));
     res.sendFile(path.join(__dirname+'/client/public/index.html'));
 })
 
