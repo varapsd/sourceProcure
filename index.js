@@ -71,7 +71,7 @@ var Admin = require('./Models/Admin').Admin;
       */
 
 app.get('/',async(req,res)=>{
-    res.redirect('http://localhost:3000/');
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
 })
 
 app.get('/search/:pin',(req,res)=>{
