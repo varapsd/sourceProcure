@@ -2,16 +2,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const csvtojson = require('csvtojson');
 const cors = require('cors');
+var path = require('path');
 const app = express();
 
 app.use(cors());
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 var url = "mongodb+srv://vara:vara@mycluster.zucif.gcp.mongodb.net/beetle?retryWrites=true&w=majority"
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error: '));
-db.once('open', function (callback) {
+db.once('open', function (callback) { 
     console.log('Successfully connected to MongoDB.');
 });
 
@@ -70,9 +72,8 @@ var Admin = require('./Models/Admin').Admin;
       })
       */
 
-app.get('/',async(req,res)=>{
-    console.log(path.join(__dirname+'/client/public/index.html'));
-    res.sendFile(path.join(__dirname+'/client/public/index.html'));
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
 })
 
 app.get('/search/:pin',(req,res)=>{
@@ -97,7 +98,6 @@ app.post('/search',async(req,res)=>{
                 branchesList.push(branch.bId);
             });
             BranchLogin.find({bId : { $in : branchesList}},(err,validBranchLogin)=>{
-                console.log(validBranchLogin);
                 validBranchLogin.forEach(branchLogin=>{
                     branchLogin.notifications.push(notificaitonId);
                     branchLogin.newNotificaitons.push(notificaitonId);
@@ -148,7 +148,6 @@ app.post("/login",(req,res)=>{
 })
 
 app.post('/adminLogin',(req,res)=>{
-    console.log(req.body.uName,req.body.passwd);
     var resObj = {
         isSuccess : false,
         notifications : null,
